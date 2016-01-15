@@ -2,80 +2,92 @@ package yangba.test.user.activity;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import android.os.Bundle;
-import android.app.Activity;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import yangba.test.user.R;
 
-
-public class MainActivity extends Activity implements
-		View.OnClickListener {
+public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	private ViewPager mViewPager;
-	private PagerAdapter mPagerAdapter;
-	private List<View> mViews = new ArrayList<View>();
-	// �ĸ�Tab��ÿ��Tab����һ����ť
-	private LinearLayout mTabWeiXin;
-	private LinearLayout mTabAddress;
-	private LinearLayout mTabFrd;
-	private LinearLayout mTabSetting;
-	// �ĸ���ť
-	private ImageButton mWeiXinImg;
-	private ImageButton mAddressImg;
-	private ImageButton mFrdImg;
-	private ImageButton mSettingImg;
+	private FragmentPagerAdapter mAdapter;
+	private List<Fragment> mFragments = new ArrayList<Fragment>();
+
+	/**
+	 * �ײ��ĸ���ť
+	 */
+	private LinearLayout mTabBtnWeixin;
+	private LinearLayout mTabBtnFrd;
+	private LinearLayout mTabBtnAddress;
+	private LinearLayout mTabBtnSettings;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-		initView();
-		initViewPage();
-		initEvent();
-	}
 
-	private void initEvent() {
-		mTabWeiXin.setOnClickListener(this);
-		mTabAddress.setOnClickListener(this);
-		mTabFrd.setOnClickListener(this);
-		mTabSetting.setOnClickListener(this);
-		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
-            /**
-            *ViewPage���һ���ʱ
-            */
+		mViewPager = (ViewPager) findViewById(R.id.id_viewpager);
+
+		initView();
+
+		mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+
 			@Override
-			public void onPageSelected(int arg0) {
-				int currentItem = mViewPager.getCurrentItem();
-				switch (currentItem) {
+			public int getCount() {
+				return mFragments.size();
+			}
+
+			@Override
+			public Fragment getItem(int arg0) {
+				return mFragments.get(arg0);
+			}
+		};
+
+		mViewPager.setAdapter(mAdapter);
+
+		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+
+			private int currentIndex;
+
+			@Override
+			public void onPageSelected(int position) {
+				resetTabBtn();
+				switch (position) {
 				case 0:
-					 resetImg();
-					mWeiXinImg.setImageResource(R.mipmap.tab_weixin_pressed);
+					((ImageButton) mTabBtnWeixin
+							.findViewById(R.id.btn_tab_bottom_weixin))
+							.setImageResource(R.mipmap.tab_weixin_pressed);
 					break;
 				case 1:
-					 resetImg();
-					mAddressImg.setImageResource(R.mipmap.tab_address_pressed);
+					((ImageButton) mTabBtnFrd
+							.findViewById(R.id.btn_tab_bottom_friend))
+							.setImageResource(R.mipmap.tab_find_frd_pressed);
 					break;
 				case 2:
-					 resetImg();
-					mFrdImg.setImageResource(R.mipmap.tab_find_frd_pressed);
+					((ImageButton) mTabBtnAddress
+							.findViewById(R.id.btn_tab_bottom_contact))
+							.setImageResource(R.mipmap.tab_address_pressed);
 					break;
 				case 3:
-					 resetImg();
-					mSettingImg.setImageResource(R.mipmap.tab_settings_pressed);
-					break;
-				default:
+					((ImageButton) mTabBtnSettings
+							.findViewById(R.id.btn_tab_bottom_setting))
+							.setImageResource(R.mipmap.tab_settings_pressed);
 					break;
 				}
+
+				currentIndex = position;
 			}
 
 			@Override
@@ -85,112 +97,65 @@ public class MainActivity extends Activity implements
 
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
-
 			}
 		});
+
 	}
 
-	private void initView() {
-		mViewPager = (ViewPager) findViewById(R.id.id_viewpage);
+	protected void resetTabBtn() {
+		((ImageButton) mTabBtnWeixin.findViewById(R.id.btn_tab_bottom_weixin))
+				.setImageResource(R.mipmap.tab_weixin_normal);
+		((ImageButton) mTabBtnFrd.findViewById(R.id.btn_tab_bottom_friend))
+				.setImageResource(R.mipmap.tab_find_frd_normal);
+		((ImageButton) mTabBtnAddress.findViewById(R.id.btn_tab_bottom_contact))
+				.setImageResource(R.mipmap.tab_address_normal);
+		((ImageButton) mTabBtnSettings
+				.findViewById(R.id.btn_tab_bottom_setting))
+				.setImageResource(R.mipmap.tab_settings_normal);
 
-		mTabWeiXin = (LinearLayout) findViewById(R.id.id_tab_weixin);
-		mTabAddress = (LinearLayout) findViewById(R.id.id_tab_address);
-		mTabFrd = (LinearLayout) findViewById(R.id.id_tab_frd);
-		mTabSetting = (LinearLayout) findViewById(R.id.id_tab_settings);
-		// ��ʼ���ĸ���ť
-		mWeiXinImg = (ImageButton) findViewById(R.id.id_tab_weixin_img);
-		mAddressImg = (ImageButton) findViewById(R.id.id_tab_address_img);
-		mFrdImg = (ImageButton) findViewById(R.id.id_tab_frd_img);
-		mSettingImg = (ImageButton) findViewById(R.id.id_tab_settings_img);
 	}
 
-
-	private void initViewPage() {
-
-
-		LayoutInflater mLayoutInflater = LayoutInflater.from(this);
-		View tab01 = mLayoutInflater.inflate(R.layout.tab01, null);
-		View tab02 = mLayoutInflater.inflate(R.layout.tab02, null);
-		View tab03 = mLayoutInflater.inflate(R.layout.tab03, null);
-		View tab04 = mLayoutInflater.inflate(R.layout.tab04, null);
-
-		mViews.add(tab01);
-		mViews.add(tab02);
-		mViews.add(tab03);
-		mViews.add(tab04);
-
-		// ��������ʼ��������
-		mPagerAdapter = new PagerAdapter() {
-
-			@Override
-			public void destroyItem(ViewGroup container, int position,
-					Object object) {
-				container.removeView(mViews.get(position));
-
-			}
-
-			@Override
-			public Object instantiateItem(ViewGroup container, int position) {
-				View view = mViews.get(position);
-				container.addView(view);
-				return view;
-			}
-
-			@Override
-			public boolean isViewFromObject(View arg0, Object arg1) {
-
-				return arg0 == arg1;
-			}
-
-			@Override
-			public int getCount() {
-
-				return mViews.size();
-			}
-		};
-		mViewPager.setAdapter(mPagerAdapter);
-	}
-
-	/**
-	 * �ж��ĸ�Ҫ��ʾ�������ð�ťͼƬ
-	 */
 	@Override
-	public void onClick(View arg0) {
-
-		switch (arg0.getId()) {
-		case R.id.id_tab_weixin:
+	public void onClick(View v) {
+		resetTabBtn();
+		switch (v.getId()) {
+		case R.id.id_tab_bottom_weixin:
+			Toast.makeText(getApplicationContext(), "xxx", 0).show();
 			mViewPager.setCurrentItem(0);
-			resetImg();
-			mWeiXinImg.setImageResource(R.mipmap.tab_weixin_pressed);
 			break;
-		case R.id.id_tab_address:
+		case R.id.id_tab_bottom_friend:
 			mViewPager.setCurrentItem(1);
-			resetImg();
-			mAddressImg.setImageResource(R.mipmap.tab_address_pressed);
 			break;
-		case R.id.id_tab_frd:
+		case R.id.id_tab_bottom_contact:
 			mViewPager.setCurrentItem(2);
-			resetImg();
-			mFrdImg.setImageResource(R.mipmap.tab_find_frd_pressed);
 			break;
-		case R.id.id_tab_settings:
+		case R.id.id_tab_bottom_setting:
 			mViewPager.setCurrentItem(3);
-			resetImg();
-			mSettingImg.setImageResource(R.mipmap.tab_settings_pressed);
 			break;
 		default:
 			break;
 		}
+
 	}
 
-	/**
-	 * ������ͼƬ�䰵
-	 */
-	private void resetImg() {
-		mWeiXinImg.setImageResource(R.mipmap.tab_weixin_normal);
-		mAddressImg.setImageResource(R.mipmap.tab_address_normal);
-		mFrdImg.setImageResource(R.mipmap.tab_find_frd_normal);
-		mSettingImg.setImageResource(R.mipmap.tab_settings_normal);
+	private void initView() {
+
+		mTabBtnWeixin = (LinearLayout) findViewById(R.id.id_tab_bottom_weixin);
+		mTabBtnFrd = (LinearLayout) findViewById(R.id.id_tab_bottom_friend);
+		mTabBtnAddress = (LinearLayout) findViewById(R.id.id_tab_bottom_contact);
+		mTabBtnSettings = (LinearLayout) findViewById(R.id.id_tab_bottom_setting);
+		mTabBtnWeixin.setOnClickListener(this);
+		mTabBtnFrd.setOnClickListener(this);
+		mTabBtnAddress.setOnClickListener(this);
+		mTabBtnSettings.setOnClickListener(this);
+		MainTab01 tab01 = new MainTab01();
+		MainTab02 tab02 = new MainTab02();
+		MainTab03 tab03 = new MainTab03();
+		MainTab04 tab04 = new MainTab04();
+		mFragments.add(tab01);
+		mFragments.add(tab02);
+		mFragments.add(tab03);
+		mFragments.add(tab04);
 	}
 
 }

@@ -1,8 +1,12 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="android:Theme.Light" />
+
+    <style name="styleName" parent="android:Widget.Holo.Light.TextView"></style>
+
+    <style name="TextStyleBlack20">
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center_horizontal</item>
     </style>
 
 </resources>
