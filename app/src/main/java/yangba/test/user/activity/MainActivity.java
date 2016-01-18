@@ -1,14 +1,12 @@
 package yangba.test.user.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -16,7 +14,14 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import yangba.test.user.R;
+import yangba.test.user.fragment.MainTab01;
+import yangba.test.user.fragment.MainTab02;
+import yangba.test.user.fragment.MainTab03;
+import yangba.test.user.fragment.MainTab04;
 
 public class MainActivity extends FragmentActivity implements OnClickListener {
 
@@ -31,7 +36,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private LinearLayout mTabBtnFrd;
 	private LinearLayout mTabBtnAddress;
 	private LinearLayout mTabBtnSettings;
-
+	private long exitTime = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -120,7 +125,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		resetTabBtn();
 		switch (v.getId()) {
 		case R.id.id_tab_bottom_weixin:
-			Toast.makeText(getApplicationContext(), "xxx", 0).show();
+			Toast.makeText(getApplicationContext(), "xxx", Toast.LENGTH_SHORT).show();
 			mViewPager.setCurrentItem(0);
 			break;
 		case R.id.id_tab_bottom_friend:
@@ -156,6 +161,25 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		mFragments.add(tab02);
 		mFragments.add(tab03);
 		mFragments.add(tab04);
+	}
+
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			exit();
+			return false;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
+	public void exit() {
+		if ((System.currentTimeMillis() - exitTime) > 2000) {
+			Toast.makeText(getApplicationContext(), "再按一次返回退出养吧",
+					Toast.LENGTH_SHORT).show();
+			exitTime = System.currentTimeMillis();
+		} else {
+			finish();
+			System.exit(0);
+		}
 	}
 
 }
