@@ -77,6 +77,7 @@ public class LYWelcomeActivity extends Activity {
             //System.out.println("d"+System.currentTimeMillis());
             // TODO Auto-generated method stub
             Intent intent = new Intent(LYWelcomeActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
 

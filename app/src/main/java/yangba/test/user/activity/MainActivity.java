@@ -1,5 +1,6 @@
 package yangba.test.user.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -164,22 +165,47 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			exit();
-			return false;
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+
+			if ((System.currentTimeMillis() - exitTime) > 2000)  //System.currentTimeMillis()无论何时调用，肯定大于2000
+			{
+				Toast.makeText(getApplicationContext(), "再按一次返回退出养吧", Toast.LENGTH_SHORT).show();
+				exitTime = System.currentTimeMillis();
+			} else {
+//				finish();
+//				System.exit(0);
+//				onDestroy();
+				Intent intent = new Intent(Intent.ACTION_MAIN);
+				intent.addCategory(Intent.CATEGORY_HOME);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				android.os.Process.killProcess(android.os.Process.myPid());
+			}
+
+			return true;
 		}
 		return super.onKeyDown(keyCode, event);
 	}
 
-	public void exit() {
-		if ((System.currentTimeMillis() - exitTime) > 2000) {
-			Toast.makeText(getApplicationContext(), "再按一次返回退出养吧",
-					Toast.LENGTH_SHORT).show();
-			exitTime = System.currentTimeMillis();
-		} else {
-			finish();
-			System.exit(0);
-		}
-	}
+
+//
+//	public boolean onKeyDown(int keyCode, KeyEvent event) {
+//		if (keyCode == KeyEvent.KEYCODE_BACK) {
+//			exit();
+//			return false;
+//		}
+//		return super.onKeyDown(keyCode, event);
+//	}
+//
+//	public void exit() {
+//		if ((System.currentTimeMillis() - exitTime) > 2000) {
+//			Toast.makeText(getApplicationContext(), "再按一次返回退出养吧",
+//					Toast.LENGTH_SHORT).show();
+//			exitTime = System.currentTimeMillis();
+//		} else {
+//			finish();
+//			System.exit(0);
+//		}
+//	}
 
 }
