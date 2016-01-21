@@ -74,7 +74,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 				case 0:
 					((ImageButton) mTabBtnWeixin
 							.findViewById(R.id.btn_tab_bottom_weixin))
-							.setImageResource(R.mipmap.tab_weixin_pressed);
+							.setImageResource(R.mipmap.add_at_selected);
 					break;
 				case 1:
 					((ImageButton) mTabBtnFrd
