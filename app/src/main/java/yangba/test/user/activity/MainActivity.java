@@ -44,6 +44,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 
+
 		mViewPager = (ViewPager) findViewById(R.id.id_viewpager);
 
 		initView();
@@ -62,6 +63,17 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		};
 
 		mViewPager.setAdapter(mAdapter);
+		if (LoginActivity.hasregister == true) {
+			mViewPager.setCurrentItem(3);
+			resetTabBtn();
+			((ImageButton) mTabBtnSettings
+					.findViewById(R.id.btn_tab_bottom_setting))
+					.setImageResource(R.mipmap.tab_settings_pressed);
+
+
+		}
+
+
 
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
@@ -71,26 +83,26 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			public void onPageSelected(int position) {
 				resetTabBtn();
 				switch (position) {
-				case 0:
-					((ImageButton) mTabBtnWeixin
-							.findViewById(R.id.btn_tab_bottom_weixin))
-							.setImageResource(R.mipmap.add_at_selected);
-					break;
-				case 1:
-					((ImageButton) mTabBtnFrd
-							.findViewById(R.id.btn_tab_bottom_friend))
-							.setImageResource(R.mipmap.tab_find_frd_pressed);
-					break;
-				case 2:
-					((ImageButton) mTabBtnAddress
-							.findViewById(R.id.btn_tab_bottom_contact))
-							.setImageResource(R.mipmap.tab_address_pressed);
-					break;
-				case 3:
-					((ImageButton) mTabBtnSettings
-							.findViewById(R.id.btn_tab_bottom_setting))
-							.setImageResource(R.mipmap.tab_settings_pressed);
-					break;
+					case 0:
+						((ImageButton) mTabBtnWeixin
+								.findViewById(R.id.btn_tab_bottom_weixin))
+								.setImageResource(R.mipmap.add_at_selected);
+						break;
+					case 1:
+						((ImageButton) mTabBtnFrd
+								.findViewById(R.id.btn_tab_bottom_friend))
+								.setImageResource(R.mipmap.tab_find_frd_pressed);
+						break;
+					case 2:
+						((ImageButton) mTabBtnAddress
+								.findViewById(R.id.btn_tab_bottom_contact))
+								.setImageResource(R.mipmap.tab_address_pressed);
+						break;
+					case 3:
+						((ImageButton) mTabBtnSettings
+								.findViewById(R.id.btn_tab_bottom_setting))
+								.setImageResource(R.mipmap.tab_settings_pressed);
+						break;
 				}
 
 				currentIndex = position;
@@ -126,7 +138,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		resetTabBtn();
 		switch (v.getId()) {
 		case R.id.id_tab_bottom_weixin:
-			Toast.makeText(getApplicationContext(), "xxx", Toast.LENGTH_SHORT).show();
 			mViewPager.setCurrentItem(0);
 			break;
 		case R.id.id_tab_bottom_friend:
@@ -162,6 +173,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		mFragments.add(tab02);
 		mFragments.add(tab03);
 		mFragments.add(tab04);
+
+
 	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

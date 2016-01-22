@@ -7,51 +7,42 @@ package yangba.test.user.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Window;
 
-/**
- * <p>
- * Title: LogoActivity
- * </p>
- * <p>
- * Description: Ӧ�ó�������ʱ��ʾ��LOGO����
- * </p>
- * <p>
- * Copyright: Copyright (c) 2011
- * </p>
- * <p>
- * Company: ChinaSoft International Ltd.
- * </p>
- *
- * @author etc
- * @version 1.0
- */
 
-public class LYWelcomeActivity extends Activity {
+public class WelcomeActivity extends Activity {
     /**
      * ������ʾLogo���Զ�����ͼ
      * */
     LogoView lv;
+    public SharedPreferences sharedPreferences;
+    public SharedPreferences.Editor editor;
+
+    public static boolean hasLoginInfo = false;
+
+
 
     @Override
-    /**
-     * ����Activityʱ�Զ��ص�
-     * */
+
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        // ʵ�����Զ�����ͼ
         lv = new LogoView(this);
-        // ���Զ�����ͼ��ʾ�ڱ�����
         setContentView(lv);
-        // �����޸�Logo͸���ȵ��첽����
+        sharedPreferences = getSharedPreferences("userinfo", Activity.MODE_PRIVATE);
+        String user_name = sharedPreferences.getString("user_name", "");
+        String user_password = sharedPreferences.getString("user_password", "");
+        if (!user_name.equals("") && !user_password.equals("")) {
+            hasLoginInfo = true;
+        }
         LogoTask task = new LogoTask();
-        // ִ���첽����
         task.execute();
+
     }
 
     /**
@@ -76,7 +67,7 @@ public class LYWelcomeActivity extends Activity {
         protected void onPostExecute(String result) {
             //System.out.println("d"+System.currentTimeMillis());
             // TODO Auto-generated method stub
-            Intent intent = new Intent(LYWelcomeActivity.this, MainActivity.class);
+            Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
