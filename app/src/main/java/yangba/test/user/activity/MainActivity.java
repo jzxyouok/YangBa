@@ -72,6 +72,15 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 
 		}
+		if (AddPlanActivity.addplan == true) {
+			mViewPager.setCurrentItem(2);
+			resetTabBtn();
+			((ImageButton) mTabBtnAddress
+					.findViewById(R.id.btn_tab_bottom_contact))
+					.setImageResource(R.mipmap.tab_address_pressed);
+
+
+		}
 
 
 
@@ -201,24 +210,5 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	}
 
 
-//
-//	public boolean onKeyDown(int keyCode, KeyEvent event) {
-//		if (keyCode == KeyEvent.KEYCODE_BACK) {
-//			exit();
-//			return false;
-//		}
-//		return super.onKeyDown(keyCode, event);
-//	}
-//
-//	public void exit() {
-//		if ((System.currentTimeMillis() - exitTime) > 2000) {
-//			Toast.makeText(getApplicationContext(), "再按一次返回退出养吧",
-//					Toast.LENGTH_SHORT).show();
-//			exitTime = System.currentTimeMillis();
-//		} else {
-//			finish();
-//			System.exit(0);
-//		}
-//	}
 
 }

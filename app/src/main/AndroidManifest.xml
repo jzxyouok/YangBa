@@ -29,6 +29,27 @@
             android:label="话题">
 
         </activity>
+        <activity
+            android:name=".activity.AddPlanActivity"
+            android:label="添加计划">
+
+        </activity>
+        <activity
+            android:name=".activity.CalendarActivity"
+            android:label="签到">
+
+        </activity>
+        <activity
+            android:name=".activity.CaldroidSampleActivity"
+            android:label="签到">
+
+        </activity>
+        <activity
+            android:name=".activity.NewsActivity"
+            android:label="签到">
+
+        </activity>
+
 
         <activity
             android:name=".activity.WelcomeActivity"

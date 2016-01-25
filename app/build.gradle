@@ -24,4 +24,6 @@ dependencies {
     compile 'com.android.support:support-v4:19.1.+'
     compile 'com.android.support:appcompat-v7:19.1.+'
     compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.squareup:android-times-square:1.6.4@aar'
+    compile 'com.roomorama:caldroid:2.3.1'
 }
